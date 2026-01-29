@@ -1,16 +1,14 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-versenco-primary: 99 102 241; /* Indigo-600 */
+  --color-versenco-dark: 15 23 42; /* Slate-900 */
+  --color-versenco-accent: 16 185 129; /* Emerald-500 */
+}
 
 @layer base {
-  :root {
-    --versenco-primary: 99 102 241; /* Indigo-600 */
-    --versenco-dark: 15 23 42; /* Slate-900 */
-    --versenco-accent: 16 185 129; /* Emerald-500 */
-  }
-
   * {
-    @apply border-border;
+    border-color: rgb(226 232 240); /* gray-200 */
   }
   
   body {
