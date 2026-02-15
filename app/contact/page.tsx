@@ -1,30 +1,23 @@
 'use client'
 
-import { Suspense, useState, useEffect } from 'react'
+import { Suspense, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { MapPin, Mail, Send, CheckCircle } from 'lucide-react'
+import { SERVICES } from '@/lib/constants'
 
 function ContactForm() {
   const searchParams = useSearchParams()
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    service: searchParams.get('service') || 'backend',
+    service: searchParams.get('service') || '',
     message: ''
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle')
 
-  const services = [
-    { value: 'starter', label: 'Hébergement Starter (5.000 FCFA)' },
-    { value: 'pro', label: 'Hébergement Pro (12.000 FCFA)' },
-    { value: 'dev-sandbox', label: 'Dev Sandbox (15.000 FCFA)' },
-    { value: 'power-vps', label: 'Power VPS (25.000 FCFA)' },
-    { value: 'vps-custom', label: 'VPS Personnalisé' },
-    { value: 'paas', label: 'PaaS Déploiement Autonome' },
-    { value: 'marketplace', label: 'Application Marketplace' },
-    { value: 'custom', label: 'Autre / Infrastructure sur mesure' }
-  ]
+  // Alias for clarity
+  const services = SERVICES
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -32,10 +25,8 @@ function ContactForm() {
     setSubmitStatus('idle')
 
     try {
-      // Webhook n8n - À configurer avec votre URL
-      const WEBHOOK_URL = 'https://n8n.versenco.com/webhook/contact-versenco'
-      
-      const response = await fetch(WEBHOOK_URL, {
+      // Send to our API endpoint instead of directly to n8n
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -43,11 +34,14 @@ function ContactForm() {
         body: JSON.stringify(formData)
       })
 
+      const data = await response.json()
+
       if (response.ok) {
         setSubmitStatus('success')
-        setFormData({ name: '', email: '', service: 'backend', message: '' })
+        setFormData({ name: '', email: '', service: '', message: '' })
       } else {
-        throw new Error('Erreur serveur')
+        console.error('Erreur API:', data)
+        throw new Error(data.error || 'Erreur serveur')
       }
     } catch (error) {
       console.error('Erreur:', error)
@@ -114,6 +108,23 @@ function ContactForm() {
                       </a>
                     </div>
                   </div>
+
+                  <div className="flex items-start space-x-4">
+                    <div className="w-12 h-12 rounded-xl bg-slate-800 flex items-center justify-center flex-shrink-0 text-indigo-400">
+                      <div className="text-xl">💬</div>
+                    </div>
+                    <div>
+                      <h4 className="font-semibold text-white mb-1">WhatsApp</h4>
+                      <a 
+                        href="https://wa.me/22940138061" 
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm text-indigo-400 hover:text-indigo-300 transition-colors"
+                      >
+                        +229 40 13 80 61
+                      </a>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="mt-10 p-4 bg-slate-800/50 rounded-xl border border-slate-700">
@@ -175,6 +186,7 @@ function ContactForm() {
                     onChange={(e) => setFormData({ ...formData, service: e.target.value })}
                     className="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 transition outline-none cursor-pointer"
                   >
+                    <option value="">-- Choisir un service --</option>
                     {services.map((service) => (
                       <option key={service.value} value={service.value}>
                         {service.label}
@@ -273,7 +285,14 @@ function ContactForm() {
               <div className="p-6 rounded-2xl bg-gray-50 border border-gray-200">
                 <div className="text-3xl mb-3">💬</div>
                 <h4 className="font-semibold mb-2">WhatsApp</h4>
-                <p className="text-sm text-gray-600">Bientôt disponible</p>
+                <a 
+                  href="https://wa.me/22940138061" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-indigo-600 hover:underline"
+                >
+                  +229 40 13 80 61
+                </a>
               </div>
 
               <div className="p-6 rounded-2xl bg-gray-50 border border-gray-200">

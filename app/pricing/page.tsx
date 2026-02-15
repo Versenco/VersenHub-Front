@@ -1,8 +1,9 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { Check, ArrowRight, Server, Code, Rocket, Package, Zap, Shield, AlertCircle } from 'lucide-react'
+import { Check, ArrowRight, Server, Code, Rocket, Package, Zap, AlertCircle } from 'lucide-react'
 
 export default function PricingPage() {
   const [ramValue, setRamValue] = useState(2)

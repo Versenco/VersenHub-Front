@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 
 import Link from 'next/link'
@@ -26,7 +27,7 @@ export default function Home() {
 
             {/* Subheading */}
             <p className="text-xl md:text-2xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed animate-fadeInUp">
-              Hébergez vos applications, codez à distance et sécurisez vos données sur une infrastructure optimisée à Cotonou. 
+              Hébergez vos applications, codez à distance et sécurisez vos données sur une infrastructure optimisée à Cotonou.
               <span className="font-semibold text-gray-700"> Latence minimale, contrôle maximal.</span>
             </p>
 
@@ -81,7 +82,7 @@ export default function Home() {
               Une solution pour chaque besoin
             </h2>
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">
-              De l'hébergement simple à l'intelligence artificielle privée.
+              De l&apos;hébergement simple à l&apos;intelligence artificielle privée.
             </p>
           </div>
 
